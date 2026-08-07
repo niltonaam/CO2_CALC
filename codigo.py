@@ -356,7 +356,7 @@ with col_left:
 
     # Campo opcional: Interpretación Técnica (Análisis, justificaciones y medidas de mitigación)
     with st.container(border=True):
-        st.subheader("Observaciones e Interpretación Técnica", divider="green")
+        st.subheader("Observaciones", divider="green")
         user_interpretacion = st.text_area(
             "Análisis, justificaciones y medidas de mitigación (Opcional)",
             placeholder="Ingrese aquí análisis operativo, observaciones o acciones de mitigación contempladas...",
