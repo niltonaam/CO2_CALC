@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calculadora de Emisiones en Transporte Forestal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#3f6653",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f4fafd",
+                        "on-surface": "#161d1f",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#a1f4c8",
+                        "surface-container-low": "#eef5f7",
+                        "inverse-surface": "#2b3234",
+                        "on-surface-variant": "#414844",
+                        "secondary": "#116c4a",
+                        "primary-fixed": "#c1ecd4",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "on-background": "#161d1f",
+                        "tertiary": "#152b1c",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#1b724f",
+                        "surface": "#f4fafd",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#dde4e6",
+                        "outline-variant": "#c1c8c2",
+                        "primary": "#012d1d",
+                        "inverse-on-surface": "#ebf2f4",
+                        "on-secondary-fixed-variant": "#005236",
+                        "surface-container-highest": "#dde4e6",
+                        "inverse-primary": "#a5d0b9",
+                        "on-tertiary-container": "#93ad98",
+                        "surface-container": "#e8eff1",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#354c3b",
+                        "outline": "#717973",
+                        "surface-dim": "#d4dbdd",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#cee9d3",
+                        "primary-container": "#1b4332",
+                        "tertiary-container": "#2a4131",
+                        "secondary-fixed": "#a1f4c8",
+                        "background": "#f4fafd",
+                        "on-secondary-fixed": "#002113",
+                        "tertiary-fixed-dim": "#b3cdb7",
+                        "surface-container-high": "#e2e9ec",
+                        "on-primary-container": "#86af99",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#002114",
+                        "on-tertiary-fixed": "#092012",
+                        "secondary-fixed-dim": "#86d7ad",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#a5d0b9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "lg": "40px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "xl": "64px",
+                        "md": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "data-label": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "button": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "data-label": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "button": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+                    },
+                    "animation": {
+                        "fade-in-up": "fadeInUp 0.5s ease-out forwards",
+                        "pulse-soft": "pulseSoft 2s infinite",
+                        "grow-up": "growUp 0.8s ease-out forwards"
+                    },
+                    "keyframes": {
+                        fadeInUp: {
+                            "0%": { opacity: "0", transform: "translateY(20px)" },
+                            "100%": { opacity: "1", transform: "translateY(0)" }
+                        },
+                        pulseSoft: {
+                            "0%, 100%": { boxShadow: "0 0 0 0 rgba(1, 45, 29, 0)" },
+                            "50%": { boxShadow: "0 0 0 4px rgba(17, 108, 74, 0.1)" }
+                        },
+                        growUp: {
+                            "0%": { transform: "scaleY(0)" },
+                            "100%": { transform: "scaleY(1)" }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F9FA; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c8c2; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #717973; 
+        }
+        
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        
+        .chart-bar {
+            transform-origin: bottom;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col md:flex-row">
+<!-- Mobile Top App Bar -->
+<header class="md:hidden flex justify-between items-center h-16 px-margin-mobile w-full bg-surface border-b border-outline-variant z-50 fixed top-0">
+<div class="font-headline-md text-headline-md font-bold text-primary">ForLogistics Carbon Calc</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">account_circle</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow w-full pt-20 md:pt-8 px-margin-mobile md:px-margin-desktop pb-xl max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="mb-gutter animate-fade-in-up">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">Calculadora de Emisiones en Transporte Forestal</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Ingrese los datos operativos para calcular el impacto de CO2.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Forms (8 cols on desktop) -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Section 1: Identificación de la Operación -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm opacity-0 animate-fade-in-up delay-100 hover:shadow-md transition-shadow duration-300">
+<div class="flex items-center gap-2 mb-md border-b border-surface-variant pb-xs">
+<span class="material-symbols-outlined text-primary">assignment</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">1. Identificación de la Operación</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Nombre del Proyecto</label>
+<input class="border border-outline-variant rounded bg-surface-container-lowest px-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" placeholder="Ej. Extracción Lote 42" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Fecha</label>
+<input class="border border-outline-variant rounded bg-surface-container-lowest px-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" type="date"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Cliente / Empresa</label>
+<input class="border border-outline-variant rounded bg-surface-container-lowest px-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" placeholder="Maderera del Sur S.A." type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Origen - Destino</label>
+<div class="flex items-center gap-2">
+<input class="border border-outline-variant rounded bg-surface-container-lowest px-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" placeholder="Origen" type="text"/>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+<input class="border border-outline-variant rounded bg-surface-container-lowest px-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" placeholder="Destino" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Parámetros Técnicos del Transporte -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm opacity-0 animate-fade-in-up delay-200 hover:shadow-md transition-shadow duration-300">
+<div class="flex items-center gap-2 mb-md border-b border-surface-variant pb-xs">
+<span class="material-symbols-outlined text-primary">settings_applications</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">2. Parámetros Técnicos del Transporte</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Tipo de Vehículo</label>
+<div class="relative group">
+<select class="border border-outline-variant rounded bg-surface-container-lowest px-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full appearance-none">
+<option>Camión Maderero (3 Ejes)</option>
+<option>Tráiler Articulado</option>
+<option>Camión Grúa Forestal</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-outline pointer-events-none group-hover:text-secondary transition-colors">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Tipo de Combustible</label>
+<div class="relative group">
+<select class="border border-outline-variant rounded bg-surface-container-lowest px-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full appearance-none">
+<option>Diésel B5</option>
+<option>Diésel Ultra Bajo Azufre</option>
+<option>Biodiésel HVO</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-outline pointer-events-none group-hover:text-secondary transition-colors">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Distancia Recorrida (km)</label>
+<div class="relative group">
+<input class="border border-outline-variant rounded bg-surface-container-lowest pl-10 pr-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" placeholder="0.00" type="number"/>
+<span class="material-symbols-outlined absolute left-3 top-2 text-outline group-hover:text-secondary transition-colors">route</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Peso de Carga (toneladas)</label>
+<div class="relative group">
+<input class="border border-outline-variant rounded bg-surface-container-lowest pl-10 pr-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" placeholder="0.00" type="number"/>
+<span class="material-symbols-outlined absolute left-3 top-2 text-outline group-hover:text-secondary transition-colors">scale</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 md:col-span-2">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface">Velocidad Promedio (km/h)</label>
+<div class="relative w-full md:w-1/2 group">
+<input class="border border-outline-variant rounded bg-surface-container-lowest pl-10 pr-3 py-2 hover:border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-200 w-full" placeholder="0" type="number"/>
+<span class="material-symbols-outlined absolute left-3 top-2 text-outline group-hover:text-secondary transition-colors">speed</span>
+</div>
+</div>
+</div>
+<div class="mt-md flex justify-end">
+<button class="bg-primary-container text-on-primary hover:bg-primary font-button text-button py-2 px-6 rounded flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg focus:ring-4 focus:ring-primary-container/30">
+<span class="material-symbols-outlined">calculate</span>
+                            Calcular Emisiones
+                        </button>
+</div>
+</section><section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm opacity-0 animate-fade-in-up delay-300 hover:shadow-md transition-shadow duration-300">
+<div class="flex items-center gap-2 mb-md border-b border-surface-variant pb-xs">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">4. Histórico de Emissões</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">Tendência de impacto de CO2 nos últimos meses</p>
+<div class="h-48 w-full flex items-end gap-4 px-2">
+<div class="flex-grow flex flex-col items-center gap-2">
+<div class="w-full bg-secondary opacity-40 rounded-t chart-bar animate-grow-up delay-[400ms]" style="height: 60%"></div>
+<span class="font-data-label text-data-label text-outline">ENE</span>
+</div>
+<div class="flex-grow flex flex-col items-center gap-2">
+<div class="w-full bg-secondary opacity-50 rounded-t chart-bar animate-grow-up delay-[500ms]" style="height: 75%"></div>
+<span class="font-data-label text-data-label text-outline">FEB</span>
+</div>
+<div class="flex-grow flex flex-col items-center gap-2">
+<div class="w-full bg-secondary opacity-60 rounded-t chart-bar animate-grow-up delay-[600ms]" style="height: 45%"></div>
+<span class="font-data-label text-data-label text-outline">MAR</span>
+</div>
+<div class="flex-grow flex flex-col items-center gap-2">
+<div class="w-full bg-secondary opacity-70 rounded-t chart-bar animate-grow-up delay-[700ms]" style="height: 90%"></div>
+<span class="font-data-label text-data-label text-outline">ABR</span>
+</div>
+<div class="flex-grow flex flex-col items-center gap-2">
+<div class="w-full bg-secondary opacity-80 rounded-t chart-bar animate-grow-up delay-[800ms]" style="height: 65%"></div>
+<span class="font-data-label text-data-label text-outline">MAY</span>
+</div>
+<div class="flex-grow flex flex-col items-center gap-2">
+<div class="w-full bg-secondary rounded-t chart-bar animate-grow-up delay-[900ms]" style="height: 83%"></div>
+<span class="font-data-label text-data-label text-outline">JUN</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Results (4 cols on desktop) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Section 3: Interpretación Técnica -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm h-full flex flex-col opacity-0 animate-fade-in-up delay-400 hover:shadow-md transition-shadow duration-300">
+<div class="flex items-center gap-2 mb-md border-b border-surface-variant pb-xs">
+<span class="material-symbols-outlined text-secondary">analytics</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">3. Interpretación Técnica</h2>
+</div>
+<div class="flex-grow flex flex-col gap-md">
+<!-- Primary Result -->
+<div class="bg-surface-container p-sm rounded-lg border border-surface-variant animate-pulse-soft transition-all duration-300 hover:bg-surface-container-high cursor-default">
+<span class="font-data-label text-data-label text-on-surface-variant uppercase block mb-1">Emisiones Totales (CO2e)</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-primary">1,245</span>
+<span class="font-body-md text-body-md text-on-surface-variant font-semibold">kg</span>
+</div>
+</div>
+<!-- Secondary Metrics -->
+<div class="grid grid-cols-2 gap-sm">
+<div class="bg-surface-bright p-sm rounded border border-surface-variant transition-colors duration-300 hover:bg-surface-container-low cursor-default">
+<span class="font-data-label text-data-label text-on-surface-variant uppercase block mb-1">Intensidad</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-on-surface">62.3</span>
+</div>
+<span class="font-data-label text-data-label text-outline block mt-1">g CO2 / ton-km</span>
+</div>
+<div class="bg-surface-bright p-sm rounded border border-surface-variant transition-colors duration-300 hover:bg-surface-container-low cursor-default">
+<span class="font-data-label text-data-label text-on-surface-variant uppercase block mb-1">Eficiencia</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="font-body-sm text-body-sm font-semibold text-secondary">Óptima</span>
+</div>
+<span class="font-data-label text-data-label text-outline block mt-1">Vs Benchmark</span>
+</div>
+</div>
+<!-- Gauge/Chart Visualization -->
+<div class="mt-auto">
+<span class="font-data-label text-data-label text-on-surface-variant uppercase block mb-2">Límite de Industria (1500 kg)</span>
+<div class="w-full bg-surface-variant rounded-full h-4 relative overflow-hidden">
+<!-- Progress bar representing the 1245 / 1500 limit -->
+<div class="bg-secondary h-4 rounded-full transition-all duration-1000 ease-out" style="width: 83%"></div>
+<!-- Benchmark marker -->
+<div class="absolute top-0 bottom-0 w-0.5 bg-on-surface right-[20%]"></div>
+</div>
+<div class="flex justify-between mt-1">
+<span class="font-data-label text-data-label text-outline">0</span>
+<span class="font-data-label text-data-label text-outline">1500</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                                Operación actualmente un <strong class="text-secondary">17% por debajo</strong> del límite estandarizado para este trayecto y carga.
+                            </p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>
