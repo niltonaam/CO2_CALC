@@ -20,11 +20,11 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0');
-    
+
     html, body, [class*="css"]  {
         font-family: 'Inter', sans-serif;
     }
-    
+
     /* Compactar padding general de la aplicación */
     .block-container {
         padding-top: 2.5rem !important;
@@ -41,13 +41,13 @@ st.markdown("""
     div[data-testid="stHorizontalBlock"] {
         gap: 0.75rem !important;
     }
-    
+
     .stApp {
         background-color: #f4fafd;
         color: #161d1f;
     }
-    
-    .stTextInput > div > div > input, 
+
+    .stTextInput > div > div > input,
     .stNumberInput > div > div > input,
     .stDateInput > div > div > input,
     .stSelectbox > div > div > div {
@@ -58,7 +58,7 @@ st.markdown("""
         padding-top: 0.25rem !important;
         padding-bottom: 0.25rem !important;
     }
-    
+
     .stTextInput label p,
     .stNumberInput label p,
     .stDateInput label p,
@@ -81,13 +81,13 @@ st.markdown("""
         transition: all 0.3s ease !important;
         width: 100%;
     }
-    
+
     .stButton > button:hover {
         background-color: #012d1d !important;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
         transform: translateY(-2px) !important;
     }
-    
+
     .stDownloadButton > button {
         background-color: #a1f4c8 !important;
         color: #1b724f !important;
@@ -98,7 +98,7 @@ st.markdown("""
         transition: all 0.3s ease !important;
         width: 100%;
     }
-    
+
     .section-header {
         display: flex;
         align-items: center;
@@ -107,14 +107,14 @@ st.markdown("""
         padding-bottom: 0.2rem;
         margin-bottom: 0.5rem;
     }
-    
+
     .section-header h2 {
         font-size: 1.1rem;
         font-weight: 600;
         color: #012d1d;
         margin: 0;
     }
-    
+
     .section-container {
         background-color: #ffffff;
         border: 1px solid #c1c8c2;
@@ -122,7 +122,7 @@ st.markdown("""
         padding: 0.85rem 1rem;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         margin-bottom: 0.5rem;
-    }    
+    }
     .chart-clickable {
         transition: transform 0.2s ease, filter 0.2s ease;
     }
@@ -217,7 +217,7 @@ with col_left:
     # 1. Identificación de la Operación
     with st.container(border=True):
         st.subheader("1. Identificación de la Operación", divider="green")
-        
+
         # Nombre del Proyecto y Fecha de Operaciones uno al lado del otro
         col_nf1, col_nf2 = st.columns(2)
         with col_nf1:
@@ -226,7 +226,7 @@ with col_left:
             fecha = st.date_input("Fecha de Operación", value=datetime.today())
 
         empresa = st.text_input("Cliente / Empresa", placeholder="Ej. UTEC")
-        
+
         # Producto y Código NCM uno al lado del otro
         col_p1, col_p2 = st.columns(2)
         with col_p1:
@@ -238,14 +238,14 @@ with col_left:
             if ncm_code.strip():
                 clean_code = ncm_code.strip().replace(".", "")
                 cap_code = clean_code[:2] if len(clean_code) >= 2 else ""
-                
+
                 # Obtener Capítulo (primeros 2 dígitos) y descripción específica NCM
                 try:
                     if cap_code:
                         r_cap = requests.get(f"https://brasilapi.com.br/api/ncm/v1/{cap_code}", timeout=3)
                         if r_cap.status_code == 200:
                             cap_ncm = r_cap.json().get("descricao", "")
-                    
+
                     if len(clean_code) >= 4:
                         r_ncm = requests.get(f"https://brasilapi.com.br/api/ncm/v1?search={clean_code[:4]}", timeout=3)
                         if r_ncm.status_code == 200:
@@ -259,7 +259,7 @@ with col_left:
                                 desc_ncm = items[0].get("descricao", "")
                 except Exception:
                     desc_ncm = "Error de conexión API"
-                    
+
                 info_msg = ""
                 if cap_code and cap_ncm:
                     info_msg += f"**Capítulo {cap_code}:** {cap_ncm}\n\n"
@@ -299,46 +299,50 @@ with col_left:
 
     with st.container(border=True):
         st.subheader("2. Parámetros Técnicos del Transporte", divider="green")
-        
+
         c1, c2 = st.columns(2)
         with c1:
             vehiculo = st.selectbox("Tipo de Vehículo", ["Camión Maderero (3 Ejes)", "Tráiler Articulado", "Camión Grúa Forestal", "Liviano", "Mediano", "Pesado"])
             combustible = st.selectbox("Tipo de Combustible", ["diésel", "biodiésel", "gnl", "eléctrico"])
-            carga = st.number_input("Carga Útil (toneladas)", min_value=0.0, value=30.0, step=0.1)
-            fill = st.slider("Factor de Carga (%)", min_value=10, max_value=100, value=100, step=5)
         with c2:
-            euro = st.selectbox("Norma Euro", ["III", "IV", "V", "VI"])
             vel = st.number_input("Velocidad Promedio (km/h)", min_value=0.0, value=75.0, step=1.0)
             consumo = st.number_input("Consumo Promedio (L/km)", min_value=0.0, value=0.38, step=0.01)
 
+        # Carga Útil y Factor de Carga uno al lado del otro
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            carga = st.number_input("Carga Útil (toneladas)", min_value=0.0, value=30.0, step=0.1)
+        with col_c2:
+            fill = st.slider("Factor de Carga (%)", min_value=10, max_value=100, value=100, step=5)
+
         st.markdown("**Trajetos de la Operación:**")
-        
+
         trajetos_input = []
         for idx in range(st.session_state.num_trajetos):
             st.caption(f"📍 **Trayecto {idx + 1}**")
             t_col1, t_col2, t_col3 = st.columns([2.5, 2, 1.5], vertical_alignment="bottom")
             with t_col1:
                 t_nombre = st.text_input(
-                    "Descripción / Tramo", 
-                    value=f"Trayecto {idx + 1}", 
+                    "Descripción / Tramo",
+                    value=f"Trayecto {idx + 1}",
                     key=f"t_name_{idx}",
                     placeholder="Ej. Origen -> Acopio"
                 )
             with t_col2:
                 t_dist = st.number_input(
-                    "Distancia (km)", 
-                    min_value=0.0, 
-                    value=390.0 if idx == 0 else 50.0, 
-                    step=1.0, 
+                    "Distancia (km)",
+                    min_value=0.0,
+                    value=390.0 if idx == 0 else 50.0,
+                    step=1.0,
                     key=f"t_dist_{idx}"
                 )
             with t_col3:
                 t_ret = st.checkbox(
-                    "Retorna vacío", 
-                    value=True, 
+                    "Retorna vacío",
+                    value=True,
                     key=f"t_ret_{idx}"
                 )
-            
+
             t_dist_total = t_dist * 2 if t_ret else t_dist
             trajetos_input.append({
                 "nombre": t_nombre,
@@ -356,7 +360,7 @@ with col_left:
 
     # Campo opcional: Interpretación Técnica (Análisis, justificaciones y medidas de mitigación)
     with st.container(border=True):
-        st.subheader("Observaciones", divider="green")
+        st.subheader("Observaciones e Interpretación Técnica", divider="green")
         user_interpretacion = st.text_area(
             "Análisis, justificaciones y medidas de mitigación (Opcional)",
             placeholder="Ingrese aquí análisis operativo, observaciones o acciones de mitigación contempladas...",
@@ -389,7 +393,7 @@ with col_right:
 
             st.session_state.r = {
                 "nombre": nombre, "empresa": empresa, "producto": producto, "origen": origen, "destino": destino, "fecha": str(fecha),
-                "vehiculo": vehiculo, "euro": euro, "comb": combustible,
+                "vehiculo": vehiculo, "comb": combustible,
                 "trajetos": trajetos_input,
                 "user_interpretacion": user_interpretacion.strip(),
                 "dist_ida": dist_ida_acumulada, "dist_total": dist_total, "retorna": any(t["retorna"] for t in trajetos_input),
@@ -405,19 +409,19 @@ with col_right:
 
     with st.container(border=True):
         st.subheader("3. Interpretación Técnica", divider="green")
-        
+
         if "r" in st.session_state:
             r = st.session_state.r
-            
+
             # KPI principal
             st.metric(
                 label="EMISIONES TOTALES (CO2e)",
                 value=f"{r['CO2e']:,.0f} kg",
                 delta=f"Clasificación: {r['clase_letra']} - {r['clase_nombre']}"
             )
-            
+
             st.divider()
-            
+
             # Cuadrícula de Métricas
             m1, m2 = st.columns(2)
             with m1:
@@ -426,7 +430,7 @@ with col_right:
             with m2:
                 st.metric("Emisión Específica", f"{r['emis_g_tkm']:.1f} g/t.km")
                 st.metric("Score Ambiental", f"{r['score']:.0f} / 100")
-                
+
             st.divider()
 
             # Gráfico de desglose y distribución de gases (CO2, CH4 en CO2e, N2O en CO2e)
@@ -435,7 +439,7 @@ with col_right:
             def popup_graficos(r_data):
                 st.subheader("Desglose y Distribución de Gases (CO₂e)")
                 col_pop1, col_pie_pop = st.columns(2)
-                
+
                 with col_pop1:
                     st.write("##### Cantidad Absoluta (kg CO₂e)")
                     df_gases_pop = pd.DataFrame({
@@ -443,33 +447,33 @@ with col_right:
                         "kg CO₂e": [r_data["CO2"], r_data["CO2e_CH4"], r_data["CO2e_N2O"]]
                     })
                     st.bar_chart(df_gases_pop, x="Gas", y="kg CO₂e", color="#0F766E", height=350)
-                    
+
                 with col_pie_pop:
                     st.write("##### Porcentaje Relativo (%)")
                     fig_p, ax_p = plt.subplots(figsize=(5, 4))
                     fig_p.patch.set_alpha(0.0)
                     ax_p.set_facecolor('none')
-                    
+
                     labels = ['CO₂', 'CH₄', 'N₂O']
                     values = [r_data["CO2"], r_data["CO2e_CH4"], r_data["CO2e_N2O"]]
                     colors = ['#0F766E', '#15803D', '#B45309']
-                    
+
                     nonzero = [(v, l, c) for v, l, c in zip(values, labels, colors) if v > 0]
                     if nonzero:
                         v_vals, l_labs, c_cols = zip(*nonzero)
                         total_v = sum(v_vals)
                         display_labels = [f"{l} ({v/total_v*100:.1f}%)" for v, l in zip(v_vals, l_labs)]
-                        
+
                         wedges, texts, autotexts = ax_p.pie(
-                            v_vals, 
-                            colors=c_cols, 
+                            v_vals,
+                            colors=c_cols,
                             autopct=lambda p: f'{p:.1f}%' if p >= 3.0 else '',
                             startangle=140,
                             pctdistance=0.6,
                             textprops=dict(color="white", size=10, weight="bold")
                         )
                         ax_p.legend(
-                            wedges, 
+                            wedges,
                             display_labels,
                             loc="center left",
                             bbox_to_anchor=(1.0, 0.5),
@@ -478,7 +482,7 @@ with col_right:
                         )
                     else:
                         ax_p.text(0.5, 0.5, "Sin emisiones", ha='center', va='center', color="#0F172A")
-                        
+
                     ax_p.axis('equal')
                     st.pyplot(fig_p, use_container_width=True, transparent=True)
                     plt.close(fig_p)
@@ -515,8 +519,8 @@ with col_right:
                 total_v_c = sum(v_vals_c)
                 display_labels_c = [f"{l} ({v/total_v_c*100:.1f}%)" if (v/total_v_c*100) >= 1.0 else f"{l}" for v, l in zip(v_vals_c, l_labs_c)]
                 wedges_c, texts_c, autotexts_c = ax2_comb.pie(
-                    v_vals_c, 
-                    colors=c_cols_c, 
+                    v_vals_c,
+                    colors=c_cols_c,
                     autopct=lambda p: f'{p:.1f}%' if p >= 5.0 else '',
                     startangle=140,
                     pctdistance=0.55,
@@ -530,7 +534,7 @@ with col_right:
             ax2_comb.set_title("Distribución (%)", fontsize=8.5, color="#414844", loc="left", pad=3)
 
             fig_comb.subplots_adjust(top=0.9, bottom=0.1, left=0.05, right=0.95, wspace=0.35)
-            
+
             buf_comb = io.BytesIO()
             fig_comb.savefig(buf_comb, format='png', bbox_inches='tight', transparent=True, dpi=130)
             plt.close(fig_comb)
@@ -568,12 +572,12 @@ with col_right:
                 popup_graficos(r)
 
             st.divider()
-            
+
             # Benchmark / Límite de Industria
             pct_limit = min(1.0, r['CO2e'] / 1500.0)
             below_limit = max(0, 1500 - r['CO2e'])
             pct_below = (below_limit / 1500) * 100 if below_limit > 0 else 0
-            
+
             st.write("**Límite de Industria Estandarizado (1,500 kg CO2e):**")
             st.progress(pct_limit)
             if below_limit > 0:
@@ -588,7 +592,7 @@ with col_right:
             # Mostrar la Interpretación Técnica / Justificaciones ingresadas por el usuario
             if r.get("user_interpretacion"):
                 st.info(f"**Análisis y Medidas de Mitigación:**\n\n{r['user_interpretacion']}")
-            
+
             # Generación PDF
             buffer = io.BytesIO()
             with PdfPages(buffer) as pdf:
@@ -596,36 +600,36 @@ with col_right:
                 fig1.patch.set_facecolor("#FFFFFF")
                 ax.set_facecolor("#FFFFFF")
                 ax.axis("off")
-                
+
                 # Encabezado principal
                 ax.add_patch(plt.Rectangle((0.04, 0.90), 0.92, 0.08, transform=ax.transAxes, facecolor=COR_AZUL_OSCURO, edgecolor="none"))
                 ax.text(0.07, 0.95, "REPORTE DE EMISIONES Y EFICIENCIA LOGÍSTICA", fontsize=14, fontweight="bold", color="white", transform=ax.transAxes)
                 ax.text(0.07, 0.92, f"Cliente: {r['empresa']}  |  Proyecto / Encargado: {r['nombre']}  |  Fecha: {r['fecha']}", fontsize=9, color="#DDEAFE", transform=ax.transAxes)
-                
+
                 # 1. Datos Operativos y Trajetos
                 ax.text(0.05, 0.86, "1. Datos Generales y Trajetos de la Operación", fontsize=11, fontweight="bold", color=COR_AZUL_OSCURO, transform=ax.transAxes)
                 ax.add_patch(plt.Rectangle((0.05, 0.74), 0.90, 0.11, transform=ax.transAxes, facecolor="#F8FAFC", edgecolor="#CBD5E1", linewidth=1))
-                
+
                 info_left = f"• Origen / Destino: {r['origen']} -> {r['destino']}\n• Producto / NCM: {r['producto']}\n• Vehículo: {r['vehiculo']}"
-                info_right = f"• Combustible: {r['comb'].capitalize()}\n• Norma Euro: Euro {r['euro']}\n• Distancia Total: {r['dist_total']:.1f} km"
-                
+                info_right = f"• Combustible: {r['comb'].capitalize()}\n• Distancia Total: {r['dist_total']:.1f} km"
+
                 ax.text(0.07, 0.835, info_left, fontsize=8.5, color="#334155", va="top", transform=ax.transAxes, linespacing=1.3)
                 ax.text(0.52, 0.835, info_right, fontsize=8.5, color="#334155", va="top", transform=ax.transAxes, linespacing=1.3)
-                
+
                 # Detalle de Trajetos en el PDF
                 trajetos_str = "Trajetos: " + " | ".join([f"{t['nombre']} ({t['dist_ida']}km" + (" + retorno)" if t['retorna'] else ")") for t in r.get('trajetos', [])])
                 ax.text(0.07, 0.755, textwrap.shorten(trajetos_str, width=105, placeholder="..."), fontsize=8, color="#0F766E", transform=ax.transAxes)
 
                 # 2. Resumen de Emisiones (KPIs)
                 ax.text(0.05, 0.705, "2. Resultados e Interpretación Técnica", fontsize=11, fontweight="bold", color=COR_AZUL_OSCURO, transform=ax.transAxes)
-                
+
                 kpis = [
                     ("Emisiones CO₂e", f"{r['CO2e']:,.0f} kg", "#0F766E"),
                     ("Emisión Específica", f"{r['emis_g_tkm']:.1f} g/t.km", "#1E3A8A"),
                     ("Consumo Total", f"{r['cons_total_L']:.1f} L", "#0F172A"),
                     ("Score Ambiental", f"{r['score']:.0f} / 100", "#B45309")
                 ]
-                
+
                 for i, (title, val, color) in enumerate(kpis):
                     x_pos = 0.05 + i * 0.23
                     ax.add_patch(plt.Rectangle((x_pos, 0.62), 0.21, 0.065, transform=ax.transAxes, facecolor="#F1F5F9", edgecolor="#CBD5E1", linewidth=1))
@@ -649,20 +653,20 @@ with col_right:
                     y_user = y_diag - 0.015
                     ax.text(0.05, y_user, "Análisis, Justificaciones y Medidas de Mitigación (Usuario):", fontsize=9.5, fontweight="bold", color="#0F766E", transform=ax.transAxes)
                     y_user -= 0.02
-                    
+
                     user_lines = textwrap.wrap(r["user_interpretacion"], width=90)
                     box_height = len(user_lines) * 0.018 + 0.02
                     ax.add_patch(plt.Rectangle((0.05, y_user - box_height + 0.012), 0.90, box_height, transform=ax.transAxes, facecolor="#ECFDF5", edgecolor="#A7F3D0", linewidth=1))
-                    
+
                     for line in user_lines:
                         ax.text(0.07, y_user, line, fontsize=8.5, color="#065F46", transform=ax.transAxes)
                         y_user -= 0.018
-                    
+
                 pdf.savefig(fig1, bbox_inches="tight")
                 plt.close(fig1)
-                
+
             pdf_bytes = buffer.getvalue()
-            
+
             st.download_button(
                 label="📄 Descargar Reporte PDF",
                 data=pdf_bytes,
